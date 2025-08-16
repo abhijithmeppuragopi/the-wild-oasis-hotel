@@ -4,9 +4,10 @@ import { use } from "react";
 import { createBooking } from "../_lib/actions";
 import { useReservation } from "./ReservationContext";
 import SubmitButton from "./SubmitButton";
+import { auth } from "../_lib/auth";
 
 
-function ReservationForm({cabin}) {
+async function  ReservationForm({cabin}) {
   
   const {range,resetRange}=useReservation();
   const {regularPrice,discount,maxCapacity} = cabin;
@@ -24,12 +25,20 @@ function ReservationForm({cabin}) {
     cabinPrice
   }
   const createNewBooking=createBooking.bind(null, bookingData);
+  const session= await auth();
+  const user = session?.user;
   
-
+if(!user) {
+  return (
+    <div className='bg-primary-900 text-primary-300 px-16 py-10 flex'>
+      <p className='text-lg text-accent-500 flex justify-center'>Please log in to make a reservation.</p>
+    </div>
+  );
+}
   return (
     <div className='scale-[1.01]'>
       <div className='bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center'>
-        <p>Logged in as</p>
+        <p>Logged in as <span>{user}</span></p>
 
         {/* <div className='flex gap-4 items-center'>
           <img

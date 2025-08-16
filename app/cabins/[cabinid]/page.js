@@ -8,7 +8,7 @@ import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { stringify } from "postcss";
 import { Suspense } from "react";
-
+export const dynamic = 'force-dynamic';
 export  async function generateMetadata({params}){
   const {name}=await getCabin(params.cabinid);
   return {title:`Cabin-${name}`}
